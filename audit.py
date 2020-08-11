@@ -6,14 +6,14 @@ import sys
 #create a list of all counties
 #we do this to have a list of all counties as string, and also to cross-reference in later math where we need the number 92
 list_of_counties = []
-df = pd.read_excel(r'C:\Users\Vivek Rao\Desktop\IDS\Digital\Coronavirus\py\2020-08-06.xlsx')
+df = pd.read_excel(r'.\py\2020-08-06.xlsx')
 for i in range(len(df['namelsad10'])):
     county = df['namelsad10'][i]
     list_of_counties.append(county)
 
 #create a list with all dates from 02-26-2020 through the latest date MULTIPLIED by the number of counties (92)
 list_of_dates = []
-df = pd.read_csv(r'C:\Users\Vivek Rao\Desktop\IDS\Digital\Coronavirus\py\indiana-covid19-data-aug-7.csv')
+df = pd.read_csv(r'.\py\indiana-covid19-data-aug-7.csv')
 for i in range(len(df['report_date'])):
     date = df['report_date'][i]
     list_of_dates.append(date)
@@ -25,7 +25,7 @@ list_of_dates = list_of_dates*len(list_of_counties)
 def fetch_date_of(county, report_date):
     try:
         original_filename = report_date + '.xlsx'
-        original_df = pd.read_excel(Path(r'C:\Users\Vivek Rao\Desktop\IDS\Digital\Coronavirus\py',original_filename))
+        original_df = pd.read_excel(Path(r'.\py',original_filename))
         #the reason we say col #5 (or iloc #4) is because that's the location of covid_count_cumsum
         return original_df.loc[original_df['namelsad10'] == county].iloc[:,4].item()
     except:
@@ -52,10 +52,10 @@ indiana_master_df['Dates'] = pd.to_datetime(indiana_master_df['Dates'])
 
 #append columns to the right. Each column is a date
 #open a .csv from directory
-for file in os.listdir(r'C:\Users\Vivek Rao\Desktop\IDS\Digital\Coronavirus\py'):
+for file in os.listdir(r'.\py'):
     if (file.startswith('indiana-covid19-')):
         try:
-            df = pd.read_csv(Path(r'C:\Users\Vivek Rao\Desktop\IDS\Digital\Coronavirus\py',file))
+            df = pd.read_csv(Path(r'.\py',file))
             df['report_date'] = pd.to_datetime(df['report_date'])
 
             #get the latest date for which data is available
